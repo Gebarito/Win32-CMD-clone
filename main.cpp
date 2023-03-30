@@ -90,6 +90,12 @@ void criar(){
     if(fileName == "-D"){
 
     }
+    else if(fileName == "-A"){
+
+    }else{
+        cout << "Insira um tipo valido";
+        return;
+    }
 }
 void inserir(){
     cout << "inserir" <<endl;
