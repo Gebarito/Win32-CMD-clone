@@ -110,7 +110,7 @@ void deletar(){
     cout << "deletar" <<endl;
 }
 void ajuda(){
-    cout << "ajuda" << endl;
+    cout << "menu ajuda" << endl;
 
 }
 void ver(){
