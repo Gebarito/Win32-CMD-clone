@@ -33,6 +33,7 @@ void sair();
 //Auxiliares
 void dataSemana();
 void setPromptTitle();
+bool criarArquivo();
 
 int main(){
 
@@ -91,7 +92,12 @@ void criar(){
 
     }
     else if(fileName == "-A"){
-
+        bool HFile = criarArquivo();
+        if(!HFile){
+            cout << "Houve um erro ao criar o arquivo: " << GetLastError() << endl;
+        }else{
+            cout << "O arquivo foi criado com sucesso." << endl;
+        }
     }else{
         cout << "Insira um tipo valido";
         return;
@@ -253,4 +259,20 @@ void setPromptTitle(){
     }catch(exception){
 
     }
+}
+
+bool criarArquivo(){
+    string Title;
+    cout << "Titulo do arquivo: ";
+    cin >> Title;
+    HANDLE HArq = CreateFile(("C:\\" + Title).c_str(), 
+                            GENERIC_READ | GENERIC_WRITE,
+                            FILE_SHARE_READ,
+                            NULL,
+                            CREATE_ALWAYS,
+                            FILE_ATTRIBUTE_NORMAL,
+                            NULL);
+    
+    if(HArq == INVALID_HANDLE_VALUE) return false;
+    return true;  
 }
