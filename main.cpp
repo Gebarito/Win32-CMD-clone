@@ -261,6 +261,7 @@ void setPromptTitle(){
     }
 }
 
+//Nao cria o arquivo, provavel erro no diretorio.
 bool criarArquivo(){
     string Title;
     cout << "Titulo do arquivo: ";
