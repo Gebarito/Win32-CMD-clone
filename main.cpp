@@ -4,6 +4,7 @@
 #include <string>
 #include <tchar.h>
 #include <conio.h>
+//#include <shlwapi.h>
 
 /* DOCUMENTACAO OFICIAL DA BIBLIOTECA
 https://learn.microsoft.com/en-us/windows/win32/api/
