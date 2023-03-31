@@ -15,7 +15,7 @@ A seguir a lista de comandos que devem fazer, obrigatoriamente, parte do program
 | RENOMEAR | Renomeia um arquivo/diretorio |<span style="color:red">Faltando</span>|
 | MOVER    | Move um arquivo/diretorio     |<span style="color:red">Faltando</span>|
 | DELETAR  | Deleta um arquivo/diretorio   |<span style="color:red">Faltando</span>|
-| AJUDA    | Lista todos os comandos       |<span style="color:red">Faltando</span>|
+| AJUDA    | Lista todos os comandos       |<span style="color:green">Feito</span> |
 | VER      | Imprime a versao do sistema   |<span style="color:green">Feito</span> |
 | DATA     | Imprime a data do sistema     |<span style="color:green">Feito</span> |
 | HORA     | Imprime a hora do sistema     |<span style="color:green">Feito</span> |

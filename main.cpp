@@ -116,9 +116,23 @@ void deletar(){
     cout << "deletar" <<endl;
 }
 void ajuda(){
-    cout << "menu ajuda" << endl;
-
+    cout << "| Comando  | Descricao                    | \n";
+    cout << "| -------- | ---------------------------- | \n";
+    cout << "| CRIAR    | Cria um arquivo (-A) ou diretorio (-D) | \n";
+    cout << "| INSERIR  | Insere texto em um arquivo             | \n";
+    cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
+    cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n";
+    cout << "| RENOMEAR | Renomeia um arquivo/diretorio          |\n";
+    cout << "| MOVER    | Move um arquivo/diretorio              |\n";
+    cout << "| DELETAR  | Deleta um arquivo/diretorio            |\n";
+    cout << "| AJUDA    | Lista todos os comandos                |\n";
+    cout << "| VER      | Imprime a versao do sistema            |\n";
+    cout << "| DATA     | Imprime a data do sistema              |\n";
+    cout << "| HORA     | Imprime a hora do sistema              |\n";
+    cout << "| LIMPAR   | Limpa a tela                           |\n";
+    cout << "| SAIR     | Finaliza o programa                    |\n";
 }
+
 void ver(){
     OSVERSIONINFO osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
