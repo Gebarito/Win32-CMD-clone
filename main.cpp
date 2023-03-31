@@ -116,8 +116,8 @@ void deletar(){
     cout << "deletar" <<endl;
 }
 void ajuda(){
-    cout << "| Comando  | Descricao                    | \n";
-    cout << "| -------- | ---------------------------- | \n";
+    cout << "| Comando  |               Descricao                | \n";
+    cout << "| -------- | ---------------------------------------| \n";
     cout << "| CRIAR    | Cria um arquivo (-A) ou diretorio (-D) | \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
