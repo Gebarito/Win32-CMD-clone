@@ -8,7 +8,7 @@ O terminal deve conter as seguintes funções:
 
 | Comando  | Descrição                     | Status                           |
 | -------- | --------                      |--------                          |
-| CRIAR    | Cria um arquivo ou diretorio  |<span style="color:red">Faltando</span>|
+| CRIAR    | Cria um arquivo ou diretorio  |<span color="red">Faltando</span>|
 | INSERIR  | Insere texto em um arquivo    |<span style="color:red">Faltando</span>|
 | LISTAR   | Lista os arquivos e diretorios|<span style="color:red">Faltando</span>|
 | APAGAR   | Apaga um arquivo ou diretorio |<span style="color:red">Faltando</span>|
