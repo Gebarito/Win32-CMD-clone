@@ -8,16 +8,16 @@ O terminal deve conter as seguintes funções:
 
 | Comando  | Descrição                     | Status                           |
 | -------- | --------                      |--------                          |
-| CRIAR    | Cria um arquivo ou diretorio  |**Faltando**{: style="color:red"}.|
-| INSERIR  | Insere texto em um arquivo    |**Faltando**{: style="color:red"} |
-| LISTAR   | Lista os arquivos e diretorios|**Faltando**{: style="color:red"} |
-| APAGAR   | Apaga um arquivo ou diretorio |**Faltando**{: style="color:red"} |
-| RENOMEAR | Renomeia um arquivo/diretorio |**Faltando**{: style="color:red"} |
-| MOVER    | Move um arquivo/diretorio     |**Faltando**{: style="color:red"} |
-| DELETAR  | Deleta um arquivo/diretorio   |**Faltando**{: style="color:red"} |
-| AJUDA    | Lista todos os comandos       |**Faltando**{: style="color:red"} |
-| VER      | Imprime a versao do sistema   |**Feito**{: style="color:green"}  |
-| DATA     | Imprime a data do sistema     |**Feito**{: style="color:green"}  |
-| HORA     | Imprime a hora do sistema     |**Feito**{: style="color:green"}  |
-| LIMPAR   | Limpa a tela                  |**Feito**{: style="color:green"}  |
-| SAIR     | Finaliza o programa           |**Feito**{: style="color:green"}  |
+| CRIAR    | Cria um arquivo ou diretorio  |<span style="color:red">Faltando</span>|
+| INSERIR  | Insere texto em um arquivo    |<span style="color:red">Faltando</span>|
+| LISTAR   | Lista os arquivos e diretorios|<span style="color:red">Faltando</span>|
+| APAGAR   | Apaga um arquivo ou diretorio |<span style="color:red">Faltando</span>|
+| RENOMEAR | Renomeia um arquivo/diretorio |<span style="color:red">Faltando</span>|
+| MOVER    | Move um arquivo/diretorio     |<span style="color:red">Faltando</span>|
+| DELETAR  | Deleta um arquivo/diretorio   |<span style="color:red">Faltando</span>|
+| AJUDA    | Lista todos os comandos       |<span style="color:red">Faltando</span>|
+| VER      | Imprime a versao do sistema   |<span style="color:green">Feito</span>|
+| DATA     | Imprime a data do sistema     |<span style="color:green">Feito</span>|
+| HORA     | Imprime a hora do sistema     |<span style="color:green">Feito</span>|
+| LIMPAR   | Limpa a tela                  |<span style="color:green">Feito</span>|
+| SAIR     | Finaliza o programa           |<span style="color:green">Feito</span>|
