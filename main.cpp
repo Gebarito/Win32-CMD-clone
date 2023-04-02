@@ -34,7 +34,6 @@ void sair();
 
 //Auxiliares
 void dataSemana();
-void setPromptTitle(); //pode ser removido e trocado por funcao nativa
 bool criarArquivo();
 bool criarDiretorio();
 void RemoverExcecoesPastas(string foldername);
@@ -43,7 +42,7 @@ void RemoverExcecoesArquivos(string filename);
 int main(){
 
     menuInicial();
-    setPromptTitle();
+    SetConsoleTitle(TEXT("MarcoSoft Whinderson"));
     while(true){
         opcoes();
     }
@@ -157,6 +156,7 @@ void deletar(){
 }
 
 void ajuda(){
+    cout << "\n";
     cout << "| Comando  |               Descricao                | \n";
     cout << "| -------- | ---------------------------------------| \n";
     cout << "| CRIAR    | Abre o menu de criacao arquivos/pastas | \n";
@@ -189,7 +189,10 @@ void data(){
     SYSTEMTIME systime;
     string dt;
     GetSystemTime(&systime);
-    dt = to_string(systime.wDay) + "/" + (systime.wMonth < 10 ? "0" : "") + to_string(systime.wMonth) + "/" + to_string(systime.wYear);
+    
+    dt = (systime.wDay < 10 ? "0" : "") + to_string(systime.wDay) + "/" + (systime.wMonth < 10 ? "0" : "") 
+    + to_string(systime.wMonth) + "/" + to_string(systime.wYear);
+
     cout << dt << ", ";
     dataSemana();
 }
@@ -286,16 +289,6 @@ void dataSemana(){
 
 }
 
-void setPromptTitle(){
-    //TCHAR oldTitle_lenght[MAX_PATH];
-    //TCHAR newTitle_lenght[MAX_PATH];
-    
-    try{
-        SetConsoleTitle(TEXT("MarcoSoft Whinderson"));
-    }catch(exception){
-
-    }
-}
 //Cria o arquivo na pasta do programa
 bool criarArquivo(){
     string nomeArquivo;
