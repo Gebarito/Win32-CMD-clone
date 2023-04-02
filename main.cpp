@@ -267,14 +267,15 @@ bool criarArquivo(){
     string Title;
     cout << "Titulo do arquivo: ";
     cin >> Title;
-    HANDLE HArq = CreateFile(("C:\\" + Title).c_str(), 
-                            GENERIC_READ | GENERIC_WRITE,
-                            FILE_SHARE_READ,
-                            NULL,
-                            CREATE_ALWAYS,
-                            FILE_ATTRIBUTE_NORMAL,
-                            NULL);
+    Title += ".txt";
     
-    if(HArq == INVALID_HANDLE_VALUE) return false;
-    return true;  
+    HANDLE Hfile = CreateFile(Title.c_str(),    // name of the file
+                          GENERIC_WRITE, // open for writing
+                          0,             // sharing mode, none in this case
+                          0,             // use default security descriptor
+                          CREATE_ALWAYS, // overwrite if exists
+                          FILE_ATTRIBUTE_NORMAL,
+                          0);
+    CloseHandle(Hfile);
+    return Hfile;  
 }
