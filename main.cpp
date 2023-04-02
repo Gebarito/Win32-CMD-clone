@@ -125,7 +125,7 @@ void deletar(){
 void ajuda(){
     cout << "| Comando  |               Descricao                | \n";
     cout << "| -------- | ---------------------------------------| \n";
-    cout << "| CRIAR    | Cria um arquivo (-A) ou diretorio (-D) | \n";
+    cout << "| CRIAR    | Abre o menu de criacao arquivos/pastas | \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
     cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n";
@@ -269,11 +269,11 @@ bool criarArquivo(){
     cin >> Title;
     Title += ".txt";
     
-    HANDLE Hfile = CreateFile(Title.c_str(),    // name of the file
-                          GENERIC_WRITE, // open for writing
-                          0,             // sharing mode, none in this case
-                          0,             // use default security descriptor
-                          CREATE_ALWAYS, // overwrite if exists
+    HANDLE Hfile = CreateFile(Title.c_str(),    //.c_str() para converter para um ponteiro de char
+                          GENERIC_WRITE | GENERIC_READ,
+                          0,             
+                          0,             
+                          CREATE_ALWAYS, // SOBRESCREVE O ARQUIVO SE EXISTIR
                           FILE_ATTRIBUTE_NORMAL,
                           0);
     CloseHandle(Hfile);
