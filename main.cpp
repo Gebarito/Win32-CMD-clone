@@ -35,6 +35,7 @@ void sair();
 void dataSemana();
 void setPromptTitle();
 bool criarArquivo();
+bool criarDiretorio();
 
 int main(){
 
@@ -84,13 +85,20 @@ void opcoes(){
 }
 
 //Gerenciador de comandos
+
+//Pode ser reescrito de forma melhor.
 void criar(){
     string fileName;
     cout << "-D para criar uma pasta. -A para criar um arquivo" << endl;
     cin >> fileName;
 
     if(fileName == "-D"){
-
+        bool HDir = criarDiretorio();
+        if(!HDir){
+            cout << "Houve um erro ao criar o diretorio: " << GetLastError() << endl;
+        }else{
+            cout << "O diretorio foi criado com sucesso." << endl;
+        }
     }
     else if(fileName == "-A"){
         bool HFile = criarArquivo();
@@ -104,24 +112,31 @@ void criar(){
         return;
     }
 }
+
 void inserir(){
     cout << "inserir" <<endl;
 }
+
 void listar(){
     cout << "listar" <<endl;
 }
+
 void apagar(){
     cout << "apagar" <<endl;
 }
+
 void renomear(){
     cout << "renomear" <<endl;
 }
+
 void mover(){
     cout << "mover" <<endl;
 }
+
 void deletar(){
     cout << "deletar" <<endl;
 }
+
 void ajuda(){
     cout << "| Comando  |               Descricao                | \n";
     cout << "| -------- | ---------------------------------------| \n";
@@ -150,6 +165,7 @@ void ver(){
     cout << "Terminal GRR (c) creditado a Joao Gebara. Rafael Abreu. Rhamza Mourad" << endl;
 
 }
+
 void data(){
     SYSTEMTIME systime;
     string dt;
@@ -261,15 +277,14 @@ void setPromptTitle(){
 
     }
 }
-
-//Nao cria o arquivo, provavel erro no diretorio.
+//Cria o arquivo na pasta do programa
 bool criarArquivo(){
-    string Title;
+    string nomeArquivo;
     cout << "Titulo do arquivo: ";
-    cin >> Title;
-    Title += ".txt";
+    cin >> nomeArquivo;
+    nomeArquivo += ".txt";
     
-    HANDLE Hfile = CreateFile(Title.c_str(),    //.c_str() para converter para um ponteiro de char
+    HANDLE Hfile = CreateFile(nomeArquivo.c_str(),    //.c_str() para converter para um ponteiro de char
                           GENERIC_WRITE | GENERIC_READ,
                           0,             
                           0,             
@@ -278,4 +293,17 @@ bool criarArquivo(){
                           0);
     CloseHandle(Hfile);
     return Hfile;  
+}
+
+
+bool criarDiretorio(){
+    string nomePasta;
+    string _dir = "C:\\";
+    cout << "Titulo da pasta: ";
+    cin >> nomePasta;
+    _dir+=nomePasta;
+
+    if(CreateDirectory(_dir.c_str(),NULL)) return true;
+
+    return false;
 }
