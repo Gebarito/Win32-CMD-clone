@@ -1,5 +1,6 @@
 #include <iostream>
 #include <windows.h>
+#include <filesystem>
 #include <map>
 #include <string>
 #include <tchar.h>
@@ -33,9 +34,11 @@ void sair();
 
 //Auxiliares
 void dataSemana();
-void setPromptTitle();
+void setPromptTitle(); //pode ser removido e trocado por funcao nativa
 bool criarArquivo();
 bool criarDiretorio();
+void RemoverExcecoesPastas(string foldername);
+void RemoverExcecoesArquivos(string filename);
 
 int main(){
 
@@ -118,8 +121,24 @@ void inserir(){
 }
 
 void listar(){
-    cout << "listar" <<endl;
+    WIN32_FIND_DATA fd;
+    HANDLE hFind = FindFirstFile("*.*", &fd);
+    if (hFind != INVALID_HANDLE_VALUE) {
+        do {
+            if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+                // Se for um diretório
+                string parametro(fd.cFileName);
+                RemoverExcecoesPastas(parametro);
+            } else {
+                // Se for um arquivo
+                string parametro(fd.cFileName);
+                RemoverExcecoesArquivos(parametro);
+            }
+        } while (FindNextFile(hFind, &fd) != 0);
+        FindClose(hFind);
+    }   
 }
+
 
 void apagar(){
     cout << "apagar" <<endl;
@@ -298,12 +317,25 @@ bool criarArquivo(){
 
 bool criarDiretorio(){
     string nomePasta;
-    string _dir = "C:\\";
+    //string _dir = "C:\\";
     cout << "Titulo da pasta: ";
     cin >> nomePasta;
-    _dir+=nomePasta;
+    //_dir+=nomePasta;
 
-    if(CreateDirectory(_dir.c_str(),NULL)) return true;
+    if(CreateDirectory(nomePasta.c_str(),NULL)) return true;
 
     return false;
+}
+
+
+void RemoverExcecoesPastas(string foldername){
+    if(foldername == "." || foldername == "..") return;
+    if(foldername == ".git" || foldername == ".vscode") return;
+    
+    cout << "[DIR] " << foldername << endl;
+}
+
+void RemoverExcecoesArquivos(string filename){
+    if(filename.substr(filename.find_last_of(".")+1) == "txt")
+        cout << "[ARQ] " << filename << endl;
 }

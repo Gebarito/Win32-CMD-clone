@@ -10,7 +10,7 @@ A seguir a lista de comandos que devem fazer, obrigatoriamente, parte do program
 | -------- | --------                      |--------                               |
 | CRIAR    | Cria um arquivo ou diretorio  |<span style="color:green">Feito</span> |
 | INSERIR  | Insere texto em um arquivo    |<span style="color:red">Faltando</span>|
-| LISTAR   | Lista os arquivos e diretorios|<span style="color:red">Faltando</span>|
+| LISTAR   | Lista os arquivos e diretorios|<span style="color:green">Feito</span> |
 | APAGAR   | Apaga um arquivo ou diretorio |<span style="color:red">Faltando</span>|
 | RENOMEAR | Renomeia um arquivo/diretorio |<span style="color:red">Faltando</span>|
 | MOVER    | Move um arquivo/diretorio     |<span style="color:red">Faltando</span>|
