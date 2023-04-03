@@ -38,6 +38,8 @@ bool criarArquivo();
 bool criarDiretorio();
 void RemoverExcecoesPastas(string foldername);
 void RemoverExcecoesArquivos(string filename);
+void RemoverArquivo();
+void RemoverDiretorio();
 
 int main(){
 
@@ -152,7 +154,21 @@ void mover(){
 }
 
 void deletar(){
-    cout << "deletar" <<endl;
+    char c;
+    //inserir aspas em volta das letras
+    cout << "Digite D para remocao de diretorio ou A para remocao de arquivos: ";
+    cin >> c;
+
+    if(c != 'D' && c != 'A'){
+        cout << "O valor digitado nao eh valido" << endl;
+    }
+
+    if(c=='D'){
+        RemoverDiretorio();
+        return;
+    }
+
+    RemoverArquivo();
 }
 
 void ajuda(){
@@ -162,10 +178,10 @@ void ajuda(){
     cout << "| CRIAR    | Abre o menu de criacao arquivos/pastas | \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
-    cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n";
+    cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n"; //tem apagar
     cout << "| RENOMEAR | Renomeia um arquivo/diretorio          |\n";
     cout << "| MOVER    | Move um arquivo/diretorio              |\n";
-    cout << "| DELETAR  | Deleta um arquivo/diretorio            |\n";
+    cout << "| DELETAR  | Deleta um arquivo/diretorio            |\n";// e tambem tem deletar ?
     cout << "| AJUDA    | Lista todos os comandos                |\n";
     cout << "| VER      | Imprime a versao do sistema            |\n";
     cout << "| DATA     | Imprime a data do sistema              |\n";
@@ -294,7 +310,7 @@ bool criarArquivo(){
     string nomeArquivo;
     cout << "Titulo do arquivo: ";
     cin >> nomeArquivo;
-    nomeArquivo += ".txt";
+    nomeArquivo += ".txt"; //OU O USUARIO DIGITA A EXTENSAO? SO APAGAR ESSA LINHA DAI
     
     HANDLE Hfile = CreateFile(nomeArquivo.c_str(),    //.c_str() para converter para um ponteiro de char
                           GENERIC_WRITE | GENERIC_READ,
@@ -320,7 +336,6 @@ bool criarDiretorio(){
     return false;
 }
 
-
 void RemoverExcecoesPastas(string foldername){
     if(foldername == "." || foldername == "..") return;
     if(foldername == ".git" || foldername == ".vscode") return;
@@ -331,4 +346,36 @@ void RemoverExcecoesPastas(string foldername){
 void RemoverExcecoesArquivos(string filename){
     if(filename.substr(filename.find_last_of(".")+1) == "txt")
         cout << "[ARQ] " << filename << endl;
+}
+
+void RemoverArquivo(){
+    string filename;
+    bool HFile;
+    cout << "Digite o nome e a extensao do arquivo que deseja remover: ";
+    cin >> filename;
+
+    HFile = DeleteFileA(filename.c_str());
+
+    if(!HFile){
+        cout << "Erro ao remover arquivo: " << GetLastError() << endl;
+        return;
+    }
+
+    cout << "O arquivo foi removido com sucesso." << endl;
+}
+
+void RemoverDiretorio(){
+    string foldername;
+    bool HDir;
+    cout << "Digite o nome do diretorio que deseja remover: ";
+    cin >> foldername;
+
+    HDir = RemoveDirectoryA(foldername.c_str());
+
+    if(!HDir){
+        cout << "Erro ao remover diretorio: " << GetLastError() << endl;
+        return;
+    }
+
+    cout << "O diretorio foi removido com sucesso" << endl;
 }
