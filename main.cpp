@@ -93,7 +93,7 @@ void opcoes(){
 //Pode ser reescrito de forma melhor.
 void criar(){
     string fileName;
-    cout << "-D para criar uma pasta. -A para criar um arquivo" << endl;
+    cout << "-D para criar uma pasta. -A para criar um arquivo: ";
     cin >> fileName;
 
     if(fileName == "-D"){
