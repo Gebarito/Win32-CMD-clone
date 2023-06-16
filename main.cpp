@@ -10,10 +10,10 @@
 /* DOCUMENTACAO OFICIAL DA BIBLIOTECA
 https://learn.microsoft.com/en-us/windows/win32/api/
 
-VIDEO DE DEMONSTRACAO
+VIDEO DE DEMONSTRACAO:
 
 CODIGO FONTE:
-
+https://github.com/Gebarito/Terminal-C-
 */
 
 using namespace std;
