@@ -179,14 +179,11 @@ void renomear()
     wcout << L"Digite o novo nome: ";
     getline(wcin, novoNome);
 
-    if (MoveFileW(caminho.c_str(), novoNome.c_str()))
-    {
+    if (MoveFileW(caminho.c_str(), novoNome.c_str())){
         wcout << L"Arquivo renomeado com sucesso" << endl;
     }
-    else
-    {
-        DWORD errorCode = GetLastError();
-        wcout << L"Houve um erro ao renomear. Código de erro: " << errorCode << endl;
+    else{
+        wcout << L"Houve ao renomear o arquivo/diretorio" << endl;        
     }
 }
 
