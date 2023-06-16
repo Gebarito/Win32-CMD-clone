@@ -40,9 +40,9 @@ void RemoverExcecoesPastas(string foldername);
 void RemoverExcecoesArquivos(string filename);
 void RemoverArquivo();
 void RemoverDiretorio();
+void InserirTextoArquivo(string text, string filename);
 
 int main(){
-
     menuInicial();
     SetConsoleTitle(TEXT("MarcoSoft Whinderson"));
     while(true){
@@ -90,10 +90,8 @@ void opcoes(){
 
 //Gerenciador de comandos
 
-//Pode ser reescrito de forma melhor.
 void criar(){
     string fileName;
-    cout << "-D para criar uma pasta. -A para criar um arquivo: ";
     cin >> fileName;
 
     if(fileName == "-D"){
@@ -118,7 +116,16 @@ void criar(){
 }
 
 void inserir(){
-    cout << "inserir" <<endl;
+    string text, filename;
+    
+    cout << "Digite o nome de um arquivo presente no diretorio (com extensao): ";
+    cin >> filename;
+    cin.ignore();
+
+    cout << "Digite o texto que deseja inserir:"<<endl;
+    getline(cin,text);
+
+    InserirTextoArquivo(text, filename);
 }
 
 void listar(){
@@ -149,18 +156,30 @@ void renomear(){
     cout << "renomear" <<endl;
 }
 
-void mover(){
-    cout << "mover" <<endl;
+void mover() {
+    cin.ignore();
+    string caminhoOrigem, caminhoDestino;
+    cout << "Digite o caminho do arquivo de origem: ";
+    getline(cin, caminhoOrigem);
+    cout << "Digite o caminho de destino: ";
+    getline(cin, caminhoDestino);
+
+    if (MoveFile(caminhoOrigem.c_str(), caminhoDestino.c_str()))
+        cout << "O arquivo foi movido com sucesso." << endl;
+    else
+        cout << "Erro ao mover o arquivo: " << GetLastError() << endl;
 }
+
+
 
 void deletar(){
     char c;
-    //inserir aspas em volta das letras
     cout << "Digite D para remocao de diretorio ou A para remocao de arquivos: ";
     cin >> c;
 
     if(c != 'D' && c != 'A'){
         cout << "O valor digitado nao eh valido" << endl;
+        return;
     }
 
     if(c=='D'){
@@ -168,14 +187,13 @@ void deletar(){
         return;
     }
 
-    RemoverArquivo();
 }
 
 void ajuda(){
     cout << "\n";
     cout << "| Comando  |               Descricao                | \n";
     cout << "| -------- | ---------------------------------------| \n";
-    cout << "| CRIAR    | Abre o menu de criacao arquivos/pastas | \n";
+    cout << "| CRIAR    | -A para criar um arquivo -D para pastas| \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
     cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n"; //tem apagar
@@ -262,16 +280,14 @@ void limpar(){
 }
 
 void sair(){
+    cin.ignore();
     char c;
     cout << "Voce realmente deseja sair? (S/N):";
     cin >> c;
-    if(c != 'S' && c != 'N'){
-        cout << "Opcao invalida" << endl;
-        sair(); //Recursão até um Input Valido
-    }
-    if(c=='N') return;
-
-    ExitProcess(1);
+    
+    if(c=='S' || c=='s') ExitProcess(1);
+    
+    return;
 }
 
 //Auxiliares
@@ -378,4 +394,31 @@ void RemoverDiretorio(){
     }
 
     cout << "O diretorio foi removido com sucesso" << endl;
+}
+
+void InserirTextoArquivo(string text, string filename){
+    HANDLE file;
+    DWORD bytes;
+    
+    file = CreateFileA(filename.c_str(),
+                        GENERIC_WRITE,
+                        0,
+                        nullptr,
+                        OPEN_ALWAYS,
+                        FILE_ATTRIBUTE_NORMAL,
+                        nullptr);
+
+    if(file == INVALID_HANDLE_VALUE){
+        cout << "Erro ao abrir o arquivo, certifique-se de que ele existe no diretório e que o nome dele está correto";
+        return;
+    }
+
+    SetFilePointer(file, 0, nullptr, FILE_END);
+    
+    if(!WriteFile(file, text.c_str(), strlen(text.c_str()), &bytes, NULL))
+        cout << "Erro ao abrir o arquivo" << endl;
+    
+
+    cout << "Se o arquivo nao existir um novo sera criado com o texto" << endl;
+    CloseHandle(file);
 }
