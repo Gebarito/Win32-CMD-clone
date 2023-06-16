@@ -9,6 +9,11 @@
 
 /* DOCUMENTACAO OFICIAL DA BIBLIOTECA
 https://learn.microsoft.com/en-us/windows/win32/api/
+
+VIDEO DE DEMONSTRACAO
+
+CODIGO FONTE:
+
 */
 
 using namespace std;
@@ -118,7 +123,6 @@ void criar(){
 void inserir(){
     string text, filename;
     
-    cout << "Digite o nome de um arquivo presente no diretorio (com extensao): ";
     cin >> filename;
     cin.ignore();
 
@@ -131,6 +135,9 @@ void inserir(){
 void listar(){
     WIN32_FIND_DATA fd;
     HANDLE hFind = FindFirstFile("*.*", &fd);
+    
+    
+    cout << "Arquivos originais da pasta como main.cpp serao ignorados." << endl;
     if (hFind != INVALID_HANDLE_VALUE) {
         do {
             if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
@@ -152,9 +159,29 @@ void apagar(){
     cout << "apagar" <<endl;
 }
 
-void renomear(){
-    cout << "renomear" <<endl;
+void renomear()
+{
+    wstring caminho;
+    wstring novoNome;
+
+    wcin.ignore();
+    wcout << L"Digite o caminho para o arquivo: ";
+    getline(wcin, caminho);
+
+    wcout << L"Digite o novo nome: ";
+    getline(wcin, novoNome);
+
+    if (MoveFileW(caminho.c_str(), novoNome.c_str()))
+    {
+        wcout << L"Arquivo renomeado com sucesso" << endl;
+    }
+    else
+    {
+        DWORD errorCode = GetLastError();
+        wcout << L"Houve um erro ao renomear. Código de erro: " << errorCode << endl;
+    }
 }
+
 
 void mover() {
     cin.ignore();
@@ -169,8 +196,6 @@ void mover() {
     else
         cout << "Erro ao mover o arquivo: " << GetLastError() << endl;
 }
-
-
 
 void deletar(){
     char c;
@@ -326,7 +351,7 @@ bool criarArquivo(){
     string nomeArquivo;
     cout << "Titulo do arquivo: ";
     cin >> nomeArquivo;
-    nomeArquivo += ".txt"; //OU O USUARIO DIGITA A EXTENSAO? SO APAGAR ESSA LINHA DAI
+    //nomeArquivo += ".txt"; //OU O USUARIO DIGITA A EXTENSAO? SO APAGAR ESSA LINHA DAI
     
     HANDLE Hfile = CreateFile(nomeArquivo.c_str(),    //.c_str() para converter para um ponteiro de char
                           GENERIC_WRITE | GENERIC_READ,
