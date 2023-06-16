@@ -59,7 +59,9 @@ void menuInicial(){
     cout << "----- MarcoSoft Whinderson (c) -----"<< endl;
     cout << "Digite \"AJUDA\" para obter uma lista dos comandos" << endl;
 }
-
+/*
+    mapeia cada funcao como uma string e chama quando o usuario digita a string mapeada
+*/
 void opcoes(){
     map<string, void(*)()> opt;
 
@@ -91,7 +93,8 @@ void opcoes(){
 }
 
 //Gerenciador de comandos
-
+//menu de gerenciamento de criacao ele identifica se quer criar um diretorio ou arquivo
+//e chama a funcao auxiliar responsavel.
 void criar(){
     string fileName;
     cin >> fileName;
@@ -116,7 +119,7 @@ void criar(){
         return;
     }
 }
-
+//Pede o nome do arquivo e limpa o buffer para chamar a funcao auxiliar que ira inserir
 void inserir(){
     string text, filename;
     
@@ -128,7 +131,9 @@ void inserir(){
 
     InserirTextoArquivo(text, filename);
 }
-
+//WIN32API lista os arquivos e direitorios mas ignora os arquivos do projeto, isto é
+//arquivos como main.cpp, .vscode, a.exe e gitgnore, para que haja clareza em quais arquivos
+//o usuario criou
 void listar(){
     WIN32_FIND_DATA fd;
     HANDLE hFind = FindFirstFile("*.*", &fd);
@@ -150,7 +155,8 @@ void listar(){
     }   
 }
 
-
+//Apaga um diretorio(pasta) usando a biblioteca filesystem, essa biblioteca 
+//pode causar conflitos com alguns compiladores mais antigos
 void apagar(){
     string foldername;
     bool HDir;
@@ -164,7 +170,7 @@ void apagar(){
         cout << "Erro ao remover diretorio e seu conteudo. Erro: " << e.what() << endl;
     }
 }
-
+//renomeia um arquivo usando o move file ele "move" o arquivo para mesma pasta mas cm outro nome
 void renomear()
 {
     wstring caminho;
@@ -185,7 +191,12 @@ void renomear()
     }
 }
 
-
+//para esse metodo funcionar origem deve ser posto do seguinte jeito
+//C:\\pasta\\objeto
+//C:\\pasta\\outrapasta\\objeto
+//O nome DEVE ser colocado ao final do destino
+//Ele usa o filesystem que causa alguns conflitos com compiladores mais antigos e variados
+//no entanto apresenta mais estabilidade para usar arquivos.
 void mover() {
     string origem, destino;
     
@@ -208,12 +219,15 @@ void mover() {
     }
 }
 
+//deleta o arquivo se ele esta no mesmo repositorio
+//o .c_str() eh pra converter a string em LPCSTR parametro usado majoritariamente em metodos do
+//win32 api
 void deletar(){
     string filename;
     bool HFile;
     cout << "Digite o nome e a extensao do arquivo que deseja remover: ";
     cin >> filename;
-
+    
     HFile = DeleteFileA(filename.c_str());
 
     if(!HFile){
@@ -231,10 +245,10 @@ void ajuda(){
     cout << "| CRIAR    | -A para criar um arquivo -D para pastas| \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
-    cout << "| APAGAR   | Apaga diretorio                        |\n"; //tem apagar
+    cout << "| APAGAR   | Apaga diretorio                        |\n"; 
     cout << "| RENOMEAR | Renomeia um arquivo/diretorio          |\n";
     cout << "| MOVER    | Move um arquivo/diretorio              |\n";
-    cout << "| DELETAR  | Deleta um arquivo                      |\n";// e tambem tem deletar ?
+    cout << "| DELETAR  | Deleta um arquivo                      |\n";
     cout << "| AJUDA    | Lista todos os comandos                |\n";
     cout << "| VER      | Imprime a versao do sistema            |\n";
     cout << "| DATA     | Imprime a data do sistema              |\n";
@@ -243,6 +257,9 @@ void ajuda(){
     cout << "| SAIR     | Finaliza o programa                    |\n";
 }
 
+//Metodo oficial da documentacao WIN32 sobre como pegar a versao do windows
+//OSVERSIONINFO eh uma struct da API feita exclusivamente para isso eh feito do mesmo jeito
+//que no cmd por exemplo
 void ver(){
     OSVERSIONINFO osvi;
     ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
@@ -254,6 +271,9 @@ void ver(){
 
 }
 
+//Usa o metodo GetSystemTime para capturar o tempo numa STRUCT DA API (systemtime)
+//ela eh usa de IF em uma linha para concatenar de forma correta a data
+//eh usado um metodo auxiliar para puxar o dia da semana
 void data(){
     SYSTEMTIME systime;
     string dt;
@@ -266,6 +286,7 @@ void data(){
     dataSemana();
 }
 
+//Usa o mesmo sistema do void data() para capturar o horario so muda as variaveis da struct SYSTEMTIME
 void hora(){
     SYSTEMTIME st;
     GetLocalTime(&st); //Usa o fuso horario de DF, GetSystemTime() vai retornar o fuso horario dos EUA
@@ -274,6 +295,7 @@ void hora(){
     cout << "Hora atual: " << hr << endl;
 }
 
+//Metodo oficial da WIN32 API para limpar a tela, o codigo pode ser encontrado na documentacao oficial
 void limpar(){
     HANDLE hstdout;
     hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -314,6 +336,7 @@ void limpar(){
 
 }
 
+//limpa o buffer e pergunta se quer sair
 void sair(){
     cin.ignore();
     char c;
@@ -326,6 +349,8 @@ void sair(){
 }
 
 //Auxiliares
+//tal como data e hora usa o system time, ele pega os dias da semana no systemtime
+//ele usa um switch para imprimir o respectivo dia da semana
 void dataSemana(){
     SYSTEMTIME st;
     GetSystemTime(&st);
@@ -357,11 +382,11 @@ void dataSemana(){
 }
 
 //Cria o arquivo na pasta do programa
+//cria arquivo usando o metodo createfile diretamente da win32 api, eh necessario digitar a API
 bool criarArquivo(){
     string nomeArquivo;
     cout << "Titulo do arquivo: ";
     cin >> nomeArquivo;
-    //nomeArquivo += ".txt"; //OU O USUARIO DIGITA A EXTENSAO? SO APAGAR ESSA LINHA DAI
     
     HANDLE Hfile = CreateFile(nomeArquivo.c_str(),    //.c_str() para converter para um ponteiro de char
                           GENERIC_WRITE | GENERIC_READ,
@@ -374,19 +399,18 @@ bool criarArquivo(){
     return Hfile;  
 }
 
-
+//auxiliar do metodo criar como o criarArquivo, ele cria uma pasta e retorna sefuncionou ou nao
 bool criarDiretorio(){
     string nomePasta;
-    //string _dir = "C:\\";
     cout << "Titulo da pasta: ";
     cin >> nomePasta;
-    //_dir+=nomePasta;
 
     if(CreateDirectory(nomePasta.c_str(),NULL)) return true;
 
     return false;
 }
 
+//remove as pastas que ja vem com o projeto, como o .vscode da IDE que eu usei
 void RemoverExcecoesPastas(string foldername){
     if(foldername == "." || foldername == "..") return;
     if(foldername == ".git" || foldername == ".vscode") return;
@@ -394,11 +418,13 @@ void RemoverExcecoesPastas(string foldername){
     cout << "[DIR] " << foldername << endl;
 }
 
+//exibe apenas os txt para que nao seja exibido o .MD ou .exe
 void RemoverExcecoesArquivos(string filename){
     if(filename.substr(filename.find_last_of(".")+1) == "txt")
         cout << "[ARQ] " << filename << endl;
 }
 
+//auxiliar que insere texto dentro de um arquivo, auxiliar da INSERIR
 void InserirTextoArquivo(string text, string filename){
     HANDLE file;
     DWORD bytes;
