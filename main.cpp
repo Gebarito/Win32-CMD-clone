@@ -16,6 +16,7 @@ CODIGO FONTE:
 https://github.com/Gebarito/Terminal-C-
 */
 
+namespace fs = std::filesystem;
 using namespace std;
 
 // Menus 
@@ -43,8 +44,6 @@ bool criarArquivo();
 bool criarDiretorio();
 void RemoverExcecoesPastas(string foldername);
 void RemoverExcecoesArquivos(string filename);
-void RemoverArquivo();
-void RemoverDiretorio();
 void InserirTextoArquivo(string text, string filename);
 
 int main(){
@@ -136,7 +135,6 @@ void listar(){
     WIN32_FIND_DATA fd;
     HANDLE hFind = FindFirstFile("*.*", &fd);
     
-    
     cout << "Arquivos originais da pasta como main.cpp serao ignorados." << endl;
     if (hFind != INVALID_HANDLE_VALUE) {
         do {
@@ -156,7 +154,17 @@ void listar(){
 
 
 void apagar(){
-    cout << "apagar" <<endl;
+    string foldername;
+    bool HDir;
+    cout << "Digite o nome do diretorio que deseja remover: ";
+    cin >> foldername;
+
+    try{
+        fs::remove_all(foldername);
+        cout << "Diretorio removido" << endl;
+    }catch(fs::filesystem_error& e){
+        cout << "Erro ao remover diretorio e seu conteudo. Erro: " << e.what() << endl;
+    }
 }
 
 void renomear()
@@ -184,34 +192,41 @@ void renomear()
 
 
 void mover() {
-    cin.ignore();
-    string caminhoOrigem, caminhoDestino;
-    cout << "Digite o caminho do arquivo de origem: ";
-    getline(cin, caminhoOrigem);
-    cout << "Digite o caminho de destino: ";
-    getline(cin, caminhoDestino);
+    string origem, destino;
+    
+    cout << "Digite o caminho de origem: ";
+    cin >> origem;
 
-    if (MoveFile(caminhoOrigem.c_str(), caminhoDestino.c_str()))
-        cout << "O arquivo foi movido com sucesso." << endl;
-    else
-        cout << "Erro ao mover o arquivo: " << GetLastError() << endl;
+    cout << "Digite o caminho de destino: ";
+    cin >> destino;
+
+    if (!filesystem::exists(origem)){
+        cout << "O caminho leva a um arquivo/diretorio que nao existe." << endl;
+        return;
+    }
+
+    try {
+    filesystem::rename(origem, destino);
+    cout << "Arquivo ou diretorio movido com sucesso." << endl;
+    } catch (const filesystem::filesystem_error& e) {
+        cout << "Erro ao mover o arquivo ou diretorio: " << e.what() << endl;
+    }
 }
 
 void deletar(){
-    char c;
-    cout << "Digite D para remocao de diretorio ou A para remocao de arquivos: ";
-    cin >> c;
+    string filename;
+    bool HFile;
+    cout << "Digite o nome e a extensao do arquivo que deseja remover: ";
+    cin >> filename;
 
-    if(c != 'D' && c != 'A'){
-        cout << "O valor digitado nao eh valido" << endl;
+    HFile = DeleteFileA(filename.c_str());
+
+    if(!HFile){
+        cout << "Erro ao remover arquivo: " << GetLastError() << endl;
         return;
     }
 
-    if(c=='D'){
-        RemoverDiretorio();
-        return;
-    }
-
+    cout << "O arquivo foi removido com sucesso." << endl;
 }
 
 void ajuda(){
@@ -221,10 +236,10 @@ void ajuda(){
     cout << "| CRIAR    | -A para criar um arquivo -D para pastas| \n";
     cout << "| INSERIR  | Insere texto em um arquivo             | \n";
     cout << "| LISTAR   | Lista os arquivos/diretorios           |\n";
-    cout << "| APAGAR   | Apaga um arquivo ou diretorio          |\n"; //tem apagar
+    cout << "| APAGAR   | Apaga diretorio                        |\n"; //tem apagar
     cout << "| RENOMEAR | Renomeia um arquivo/diretorio          |\n";
     cout << "| MOVER    | Move um arquivo/diretorio              |\n";
-    cout << "| DELETAR  | Deleta um arquivo/diretorio            |\n";// e tambem tem deletar ?
+    cout << "| DELETAR  | Deleta um arquivo                      |\n";// e tambem tem deletar ?
     cout << "| AJUDA    | Lista todos os comandos                |\n";
     cout << "| VER      | Imprime a versao do sistema            |\n";
     cout << "| DATA     | Imprime a data do sistema              |\n";
@@ -387,38 +402,6 @@ void RemoverExcecoesPastas(string foldername){
 void RemoverExcecoesArquivos(string filename){
     if(filename.substr(filename.find_last_of(".")+1) == "txt")
         cout << "[ARQ] " << filename << endl;
-}
-
-void RemoverArquivo(){
-    string filename;
-    bool HFile;
-    cout << "Digite o nome e a extensao do arquivo que deseja remover: ";
-    cin >> filename;
-
-    HFile = DeleteFileA(filename.c_str());
-
-    if(!HFile){
-        cout << "Erro ao remover arquivo: " << GetLastError() << endl;
-        return;
-    }
-
-    cout << "O arquivo foi removido com sucesso." << endl;
-}
-
-void RemoverDiretorio(){
-    string foldername;
-    bool HDir;
-    cout << "Digite o nome do diretorio que deseja remover: ";
-    cin >> foldername;
-
-    HDir = RemoveDirectoryA(foldername.c_str());
-
-    if(!HDir){
-        cout << "Erro ao remover diretorio: " << GetLastError() << endl;
-        return;
-    }
-
-    cout << "O diretorio foi removido com sucesso" << endl;
 }
 
 void InserirTextoArquivo(string text, string filename){
