@@ -1,4 +1,4 @@
-# Terminal em C
+# Win32 API CPP Terminal
 
 Trabalho da materia Sistemas Operacionais I.
 O algoritmo usa a biblioteca windows.h para a maior parte das funções
